@@ -1,34 +1,36 @@
-pipeline {
-    agent any
+node {
+    def app
 
-    triggers {
-        pollSCM 'H/5 * * * *'
+    stage('Clone Repository') {
+        checkout scm
     }
-    stages {
-        stage('Build') {
-            steps {
-                sh 'chmod +x ./gradlew'
-                sh './gradlew assemble'
-            }
+
+    stage('Build Application') {
+        steps {
+            sh 'chmod +x ./gradlew'
+            sh './gradlew assemble'
         }
-        stage('Test') {
-            steps {
-                sh './gradlew test'
-            }
+    }
+    stage('Test Application Build') {
+        steps {
+            sh './gradlew test'
         }
-        stage('Build Docker image') {
-            steps {
-                sh './gradlew docker'
-            }
+    }
+
+    stage('Build Docker Image') {
+       app = docker.build("jacobwestwellnetcompany/concept")
+    }
+
+    stage('Test Docker Image') {
+        app.inside {
+            sh 'echo "Image built!"'
         }
-        stage('Push Docker image') {
-            environment {
-                DOCKER_HUB_LOGIN = credentials('docker-hub')
-            }
-            steps {
-                sh 'docker login --username=$DOCKER_HUB_LOGIN_USR --password=$DOCKER_HUB_LOGIN_PSW'
-                sh './gradlew dockerPush'
-            }
+    }
+
+    stage('Push Docker Image') {
+        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
+            app.push("${env.BUILD_NUMBER}")
+            app.push("latest")
         }
     }
 }
