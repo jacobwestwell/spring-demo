@@ -34,8 +34,12 @@ pipeline {
         }
 
         stage('Push Docker Image') {
-            docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
-                dockerImage.push()
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+                        dockerImage.push()
+                    }
+                }
             }
         }
     }
