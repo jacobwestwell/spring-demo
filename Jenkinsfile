@@ -14,7 +14,8 @@ pipeline {
     stages {
         stage('Clone Git Repository') {
             steps {
-                git 'https://github.com/jacobwestwell/spring-demo.git'
+                git branch: 'develop',
+                    url: 'https://github.com/jacobwestwell/spring-demo.git'
             }
         }
 
