@@ -1,10 +1,6 @@
 node {
     def app
 
-    stage('Clone Repository') {
-        checkout scm
-    }
-
     stage('Build Application') {
         steps {
             sh 'chmod +x ./gradlew'
