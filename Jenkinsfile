@@ -26,18 +26,16 @@ pipeline {
         }
 
         stage('Build Docker Image') {
-           app = docker.build(registry)
-        }
-
-        stage('Test Docker Image') {
-            app.inside {
-                sh 'echo "Image built!"'
+            steps {
+                script {
+                    dockerImage = docker.build(registry)
+                }
             }
         }
 
         stage('Push Docker Image') {
             docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
-                dockerImage.push("${env.BUILD_NUMBER}")
+                dockerImage.push()
             }
         }
     }
