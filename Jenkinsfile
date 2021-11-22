@@ -12,6 +12,12 @@ pipeline {
     }
 
     stages {
+        stage('Clone Git Repository') {
+            steps {
+                git 'https://github.com/jacobwestwell/spring-demo.git'
+            }
+        }
+
         stage('Build Application') {
             steps {
                 sh 'chmod +x ./gradlew'
