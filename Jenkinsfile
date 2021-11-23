@@ -5,7 +5,7 @@ pipeline {
         dockerImage = ''
     }
 
-    agent any
+    agent {label '!master'}
 
     triggers {
         pollSCM 'H/5 * * * *'
