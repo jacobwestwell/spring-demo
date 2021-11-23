@@ -12,13 +12,6 @@ pipeline {
     }
 
     stages {
-        stage('Clone Git Repository') {
-            steps {
-                git branch: 'develop',
-                    url: 'https://github.com/jacobwestwell/spring-demo.git'
-            }
-        }
-
         stage('Build Application') {
             steps {
                 sh 'chmod +x ./gradlew'
@@ -32,22 +25,22 @@ pipeline {
 //             }
 //         }
 
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    dockerImage = docker.build registry
-                }
-            }
-        }
+//         stage('Build Docker Image') {
+//             steps {
+//                 script {
+//                     dockerImage = docker.build registry
+//                 }
+//             }
+//         }
 
-        stage('Push Docker Image') {
-            steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
-                        dockerImage.push()
-                    }
-                }
-            }
-        }
+//         stage('Push Docker Image') {
+//             steps {
+//                 script {
+//                     docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+//                         dockerImage.push()
+//                     }
+//                 }
+//             }
+//         }
     }
 }
