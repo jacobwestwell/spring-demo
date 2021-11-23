@@ -15,19 +15,19 @@ pipeline {
             }
         }
 
-//         stage('Test Application Build') {
-//             steps {
-//                 sh './gradlew test'
-//             }
-//         }
+        stage('Test Application Build') {
+            steps {
+                sh './gradlew test'
+            }
+        }
 
-//         stage('Build Docker Image') {
-//             steps {
-//                 script {
-//                     dockerImage = docker.build registry
-//                 }
-//             }
-//         }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    dockerImage = docker.build registry
+                }
+            }
+        }
 
 //         stage('Push Docker Image') {
 //             steps {
