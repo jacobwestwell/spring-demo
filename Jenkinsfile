@@ -7,10 +7,6 @@ pipeline {
 
     agent {label '!master'}
 
-    triggers {
-        pollSCM 'H/5 * * * *'
-    }
-
     stages {
         stage('Build Application') {
             steps {
